@@ -4,15 +4,15 @@
 
 * **Is SAML support available in the SP for all tenants by default or is it available only for specific SKUs?** &mdash; If you select **Certain SKUs**, provide details on which products provide SAML support.
 
-* **To configure SAML, can your customers do it by themselves from your app's UI, or do they need to contact your support team?** &mdash; If a customer needs support to configure your integration, you need to include support contact information in your configuration guide. We recommend that you build a UI that enables self-service configuration to reduce the set up time for your customers.
+* **To configure SAML, can your customers do it by themselves from your app's UI, or do they need to contact your support team?** &mdash; If a customer needs support to configure your app integration, you need to include support contact information in your configuration guide. We recommend that you build a UI that enables self-service configuration to reduce the setup time for your customers.
 
-* **Are tenants deployed on-premises?** &mdash; If tenant data for you application is hosted locally on your customer's systems, select **Yes**. If the tenant data for your application is hosted on your servers, select **No**.
+* **Are tenants deployed on-premises?** &mdash; If tenant data for your application is hosted locally on your customer's systems, select **Yes**. If the tenant data for your application is hosted on your servers, select **No**.
 
-* **Is your app capable of requesting other SSO URLs?** &mdash; Select this option to configure support for multiple ACS URLs where the SAML Response can be sent. Specify an index or URL to uniquely identify each ACS URL endpoint. If an **AuthnRequest** message does not specify an index or URL, the SAML Response is sent to the default ACS URL specified above. Enter the SSO URLs and an index value for any other nodes.
+* **Is your app capable of requesting other SSO URLs?** &mdash; Select this option to configure support for multiple ACS URLs where the SAML Response can be sent. If **Yes**, specify an index or URL to identify each ACS URL endpoint. If an **AuthnRequest** message does not specify an index or URL, the SAML Response is sent to the default ACS URL specified above. Enter the SSO URLs and an index value for any other nodes. You can specify variables in the SSO URL field to construct non-static URLs, for example, `https://${app.variableName}.okta.com`.
 
 * **What is the unique SAML identifier for authentication: the subject NameID or a specific SAML attribute?** &mdash; What identifier is used by the integration to perform authentication against your SAML application? If you are using an attribute different than the `NameID` attribute, what is the name of that attribute?
 
-* **Link to configuration guide** &mdash; Your configuration guide (in either HTML or PDF format) should have step by step instructions on how to set up SSO between Okta and your systems. See [Prepare a customer-facing configuration guide](/docs/guides/submit-app/create-guide).
+* **Link to configuration guide** &mdash; Your configuration guide (in either HTML or PDF format) should have step-by-step instructions on how to configure SSO between Okta and your systems. See [Prepare a customer-facing configuration guide](/docs/guides/submit-app/create-guide).
 
 #### Configure variables
 
@@ -29,8 +29,8 @@
   * **Construct your dynamic ACS URL by copying the variables above and pasting them where applicable** &mdash; Provide your complete Assertion Consumer Service (ACS) URL endpoint where Okta posts SAML responses for your app integration.
   
     If you're using a per tenant design, include the variable names that you created. For example:
-    * https://`${app.variableName}`.okta.com
-    * https://okta-`${app.variableName}`.com
+    * `https://${app.variableName}.okta.com`
+    * `https://okta-${app.variableName}.com`
 
   * **Construct your dynamic Audience URI by copying the variables above and pasting them where applicable** &mdash; Provide your complete Audience URI. This field, which dictates the audience the SAML Assertion is intended for, can be any data string up to 1024 characters long.
 
@@ -49,6 +49,12 @@
 * **What type(s) of sign-in flows do you support?** &mdash; Choose from IdP or SP initiated, or both. If you support SP-initiated flows, you must specify the URL used to initiate the SP flow and include a description of how the SP flow is triggered by your integration.
 
 * **Force authentication?** &mdash; Select **Yes** if your application forces users to authenticate again, even if they have an existing session. If you select **Yes**, include how customers configure force authentication on your end? Provide the steps for Okta to test this forced authentication.
+
+* **Do you use encrypted assertions?** &mdash; Select **Yes** if you support an encryption method for authentication assertion.
+
+  * **Encryption Algorithm** &mdash; Select which standard algorithm is used in your encryption assertion.
+  * **Key Transport Algorithm** &mdash; Select the key transport algorithm used in your encryption.
+  * **Are you going to use the same encryption certificate for all tenants?** &mdash; If you support the same encryption certificate for all tenants, copy your certificate and paste it in the field provided.
 
 * **Do you support SP-initiated Single-Logout?** &mdash; If you select **Yes**, then **Are you going to use the same single-logout certificate for all tenants?**
 

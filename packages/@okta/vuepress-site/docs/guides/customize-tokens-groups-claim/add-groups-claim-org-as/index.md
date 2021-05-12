@@ -4,8 +4,6 @@ title: Add a Groups claim for the Org Authorization Server
 
 Use these steps to create a Groups claim for an OpenID Connect client application. This approach is recommended if you are using only Okta-mastered Groups. For an Okta Org Authorization Server, you can only create an ID token with a Groups claim, not an access token. See [Authorization Servers](/docs/guides/customize-authz-server/overview/) for more information on the types of authorization servers available to you and what you can use them for.
 
-<RequireClassicUI/>
-
 1. From the **Applications** menu, select **Applications**, and then select the OpenID Connect client application that you want to configure.
 2. Navigate to the **Sign On** tab and click **Edit** in the **OpenID Connect ID Token** section.
 3. In the **Groups claim type** section, you can select either **Filter** or **Expression**. For this example, leave **Filter** selected.
@@ -14,9 +12,9 @@ Use these steps to create a Groups claim for an OpenID Connect client applicatio
 
 ### Request an ID token that contains the Groups claim
 
-To test the full authentication flow that returns an ID token, build your request URL. For the specific steps on building the request URL, receiving the response, and decoding the JWT, see <GuideLink link="../request-token-claim">Request a token that contains the claim</GuideLink>.
+To test the full authentication flow that returns an ID token, build your request URL. The scopes that you need to include as query parameters are `openid` and `groups`. For the specific steps on building the request URL, receiving the response, and decoding the JWT, see <GuideLink link="../request-token-claim">Request a token that contains the custom claim</GuideLink>.
 
-> **Note:** The scopes that you need to include as query parameters are `openid` and `groups`.
+> **Note:** In this example, the user signing in to your app is assigned to a group called "IT" as well as being a part of the "Everyone" group.
 
 The resulting URL looks something like this:
 

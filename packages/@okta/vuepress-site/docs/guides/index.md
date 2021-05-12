@@ -28,6 +28,7 @@ guides:
  - implement-oauth-for-okta
  - implement-oauth-for-okta-serviceapp
  - implement-password
+ - implement-saml2
  - mfa
  - migrate-to-okta
  - oin-oidc-guide
@@ -56,6 +57,8 @@ guides:
  - sign-users-out
  - sign-your-own-saml-csr
  - style-the-widget
+ - token-inline-hook
+ - third-party-risk-integration
  - unlock-mobile-app-with-biometrics
  - updating-saml-cert
  - validate-access-tokens
@@ -89,9 +92,9 @@ If you're using Okta as an identity layer in your app for the first time, we rec
 
 3. Authorize
 
-    * [Implement the Authorization Code Flow](/docs/guides/implement-auth-code/overview/)
-    * [Implement the Authorization Code Flow with PKCE](/docs/guides/implement-auth-code-pkce/overview/)
-    * [Implement the Client Credentials Flow](/docs/guides/implement-client-creds/overview/)
+    * [Implement the Authorization Code flow](/docs/guides/implement-auth-code/overview/)
+    * [Implement the Authorization Code flow with PKCE](/docs/guides/implement-auth-code-pkce/overview/)
+    * [Implement the Client Credentials flow](/docs/guides/implement-client-creds/overview/)
     * [Refresh access tokens](/docs/guides/refresh-tokens/overview/)
     * [Validate access tokens](/docs/guides/validate-access-tokens/go/overview/)
     * [Validate ID tokens](/docs/guides/validate-id-tokens/overview/)

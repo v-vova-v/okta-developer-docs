@@ -3,162 +3,227 @@
     <section class="pricing">
       <div class="pricing--container">
         <div class="pricing--leader">
-          <h1 class="pricing--title">Developer Friendly Pricing</h1>
-          <p class="pricing--subtitle">Whether you're building a new application or scaling to millions of users, our plans have you covered.</p>
+          <h1 class="pricing--title">Options That Scale With Your Business</h1>
+          <p class="pricing--subtitle">
+            Whether you're building a new application or scaling to millions of
+            users, our plans have you covered.
+          </p>
         </div>
       </div>
-      <div class="pricing--background-curve">
-        <img src="/img/curve-doubleLeft.png" />
-      </div>
-      <div class="pricing-alt-bg">
-        <div class="pricing--container">
-          <div class="pricing--costs">
-            <div class="pricing-section pricing-card-intro">
-              <div class="pricing-card">
-                <div class="pricing-card-column">
-                  <h3>Add Auth in minutes (with no credit card)</h3>
-                  <div class="pricing-card-price">
-                      <p class="pricing-card-amount">
-                        $0
-                      </p>
-                      <p class="pricing-card-detail">
-                        per month
-                      </p>
-                  </div>
-                  <p class="pricing-card-subtitle">
-                    Up to 1,000 monthly active users
-                  </p>
-                  <a :href="$page.frontmatter.links.signup" class="Button--red">
-                    Get Started Free
-                  </a>
-                </div>
-                <div class="pricing-card-column">
-                  <h4>Identity and access control for your app</h4>
-                  <div class="pricing-card-lists">
-                    <ul class="pricing--icon-list">
-                      <li>Authentication</li>
-                      <li>Authorization</li>
-                      <li>Basic multi-factor authentication</li>
-                    </ul>
-                    <ul class="pricing--icon-list">
-                      <li>User management</li>
-                      <li>Email support</li>
-                      <li>Customizable sign-in and registration</li>
-                    </ul>
-                  </div>
-                </div>
+      <div class="pricing--container">
+        <div class="pricing--costs">
+          <div class="pricing-section">
+            <div class="pricing-card">
+              <div class="pricing-card-top">
+                <h3>Starter</h3>
+                <p class="pricing-card-amount">
+                  $0
+                </p>
+                <p class="pricing-card-subtitle">
+                  Get up and running fast, no credit card required
+                </p>
+                <SmartLink
+                  :item="{ link: $page.frontmatter.links.signup }"
+                  classes="Button--red"
+                >
+                  Sign Up Free
+                </SmartLink>
+              </div>
+              <div class="pricing-card-bottom">
+                <ul>
+                  <li>Up to 15,000 monthly active users</li>
+                  <li>Authentication, authorization, user management</li>
+                  <li>Customizable sign-in widget and domain</li>
+                  <li>Adaptive MFA</li>
+                  <li>B2B Integration</li>
+                  <li>99.99% availability</li>
+                  <li>Community support</li>
+                </ul>
+              </div>
+            </div>
+            <div class="pricing-card">
+              <div class="pricing-card-top">
+                <h3>Advanced</h3>
+                <p class="pricing-card-amount">
+                  $4000 /mo
+                </p>
+                <p class="pricing-card-subtitle">
+                  A complete set of customer identity features with more support
+                </p>
+                <SmartLink
+                  :item="{ link: $page.frontmatter.links.signup }"
+                  classes="Button--redOutline"
+                >
+                  Try For Free
+                </SmartLink>
+              </div>
+              <div class="pricing-card-bottom">
+                <p>
+                  All starter plan, plus
+                </p>
+                <ul>
+                  <li>Higher rate limits</li>
+                  <li>Email support</li>
+                  <li>Custom email templates</li>
+                </ul>
+              </div>
+            </div>
+            <div class="pricing-card">
+              <div class="pricing-card-top">
+                <h3>Enterprise</h3>
+                <p class="pricing-card-amount">
+                  Custom
+                </p>
+                <p class="pricing-card-subtitle">
+                  Okta's most advanced offering for production deployments
+                </p>
+                <SmartLink
+                  :item="{ link: $page.frontmatter.links.emailSupport }"
+                  classes="Button--redOutline"
+                >
+                  Contact Us
+                </SmartLink>
+              </div>
+              <div class="pricing-card-bottom">
+                <p>
+                  All advanced plan, plus
+                </p>
+                <ul>
+                  <li>Unlimited monthly active users</li>
+                  <li>Unlimited custom apps</li>
+                  <li>Service level assurance credits</li>
+                  <li>24/7 support</li>
+                  <li>Customer success options</li>
+                  <li>Enterprise plan only add-ons</li>
+                </ul>
               </div>
             </div>
           </div>
         </div>
-        <div class="pricing--container">
-          <div class="pricing--editions">
-            <div class="pricing-section">
-              <div class="pricing-card pricing-card-table">
-                <div class="pricing-card-row pricing-card-header">
-                  <div class="pricing-card-column desktop">
-                    <h3 class="pricing-card-table-name">Editions</h3>
-                  </div>
-                  <template v-for="(edition, index) in $page.frontmatter.editions">
-                    <div class="pricing-card-column" v-bind:key="edition.name">
-                      <div class="pricing-card-column-header">
-                        <h4>{{edition.name}}</h4>
-                        <template v-if="index === 0">
-                          <p>Priced at</p>
-                          <p class="pricing-card-price">{{mauPrice}}</p>
-                          <p>per month for up to</p>
-                          <select v-model="mauPrice">
-                            <option v-for="(price, index) in $page.frontmatter.pricing" :value="price.price" :key="index">
-                              {{price.maus}}
-                            </option>
-                          </select>
-                          <a :href="$page.frontmatter.links.signup" class="Button--red">Start Free</a>
-                        </template>
-                        <template v-else>
-                          <p>{{edition.subheading}}</p>
-                          <a :href="$page.frontmatter.links.contactSales" class="Button--whiteOutline">Contact Us</a>
-                        </template>
-                      </div>
-                      <template v-for="(details, feature) in $page.frontmatter.features">
-                        <div class="pricing-card-row mobile" v-bind:key="details.name">
-                          <div class="pricing-card-column">
-                            {{details.name}}
-                            <ul v-if="details.bullets">
-                              <li v-for="(bullet, bulletIndex) in details.bullets" v-bind:key="bulletIndex">
-                                {{bullet}}
-                              </li>
-                            </ul>
-                          </div>
-                          <div class="pricing-card-column" v-if="typeof edition[feature] === 'object'">
-                              <img src="/img/icons/icon--check.svg" v-if="edition[feature].enabled" class="pricing-card-check" />
-                              {{edition[feature].additionalNote}}
-                          </div>
-                          <div class="pricing-card-column" v-else>
-                            <img src="/img/icons/icon--check.svg" v-if="edition[feature]" class="pricing-card-check" />
-                          </div>
-                        </div>
-                      </template>
-                    </div>
-                  </template>
+      </div>
+      <div class="pricing--container">
+        <div class="pricing--plans">
+
+          <div
+            class="pricing-collapsible-item"
+            v-bind:class="{ 'is-active': collapsibleShownStates.compareTable }"
+          >
+            <button
+              class="pricing-collapsible-item-title"
+              v-on:click="toggleCollapsibleShown('compareTable')"
+            >
+              Compare plans
+            </button>
+            <div class="pricing-collapsible-item-content pricing-card-table">
+              <div class="pricing-card-row showInMobile no-border">
+                <div class="selector-lozenge large multiple">
+                  <button
+                    class="lozenge"
+                    :class="{ active: selectedPlan === PLANS.STARTER }"
+                    @click="selectPlan(PLANS.STARTER)"
+                  >
+                    Starter
+                  </button>
+                  <button
+                    class="lozenge"
+                    :class="{ active: selectedPlan === PLANS.ADVANCED }"
+                    @click="selectPlan(PLANS.ADVANCED)"
+                  >
+                    Advanced
+                  </button>
+                  <button
+                    class="lozenge"
+                    :class="{ active: selectedPlan === PLANS.ENTERPRISE }"
+                    @click="selectPlan(PLANS.ENTERPRISE)"
+                  >
+                    Enterprise
+                  </button>
                 </div>
-                <template v-for="(details, feature) in $page.frontmatter.features">
-                  <div class="pricing-card-row desktop" v-bind:key="details.name">
-                    <div class="pricing-card-column">
-                      {{details.name}}
-                      <ul v-if="details.bullets">
-                        <li v-for="(bullet, bulletIndex) in details.bullets" v-bind:key="bulletIndex">
-                          {{bullet}}
-                        </li>
-                      </ul>
+
+              </div>
+              <div class="pricing-card-row hideInMobile no-border">
+                <div class="pricing-card-column pricing-card-row-header">
+                </div>
+                <div class="pricing-card-column pricing-card-column-header">
+                  Starter
+                </div>
+                <div class="pricing-card-column pricing-card-column-header">
+                  Advanced
+                </div>
+                <div class="pricing-card-column pricing-card-column-header">
+                  Enterprise
+                </div>
+              </div>
+
+              <template v-for="(section, sectionKey) in $page.frontmatter.tableHeadings">
+                <div class="pricing-card-row pricing-card-section-header" v-if="section.name">
+                  <div class="pricing-card-column pricing-card-row-header">
+                    {{ section.name }}
+                  </div>
+                  <div
+                    class="pricing-card-column"
+                    :class="{ hideInMobile: selectedPlan !== PLANS.STARTER }"
+                  >
+                  </div>
+                  <div
+                    class="pricing-card-column"
+                    :class="{ hideInMobile: selectedPlan !== PLANS.ADVANCED }"
+                  >
+                  </div>
+                  <div
+                    class="pricing-card-column"
+                    :class="{ hideInMobile: selectedPlan !== PLANS.ENTERPRISE }"
+                  >
+                  </div>
+                </div>
+                <template v-for="(heading, headingKey) in section.headings">
+                  <div class="pricing-card-row">
+                    <div class="pricing-card-column pricing-card-row-header">
+                      <span v-html="heading.name"></span>
+                      <small v-if="heading.subName" v-html="heading.subName"></small>
                     </div>
-                    <template v-for="edition in $page.frontmatter.editions">
-                      <div class="pricing-card-column" v-if="typeof edition[feature] === 'object'" v-bind:key="edition.name">
-                        <div>
-                          <img src="/img/icons/icon--check.svg" v-if="edition[feature].enabled" />
-                          {{edition[feature].additionalNote}}
-                        </div>
-                      </div>
-                      <div class="pricing-card-column" v-else v-bind:key="edition.name">
-                        <img src="/img/icons/icon--check.svg" v-if="edition[feature]" />
-                      </div>
-                    </template>
+                    <div
+                      v-for="(plan, planKey) in $page.frontmatter.tableData"
+                      class="pricing-card-column"
+                      :class="{ hideInMobile: selectedPlan !== planKey }"
+                    >
+                      <span v-if="typeof plan[sectionKey][headingKey] === 'boolean'">
+                        <img
+                          src="/img/icons/icon--check.svg"
+                          class="pricing-card-check"
+                          v-if="plan[sectionKey][headingKey]"
+                        />
+                      </span>
+                      <span v-else>
+                        {{ plan[sectionKey][headingKey] }}
+                      </span>
+                    </div>
                   </div>
                 </template>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="pricing--container">
-          <div class="pricing--addons">
-            <div class="pricing-addons-header">
-              <h1>Add-Ons</h1>
-              <h4>
-                Learn more about add-on products at <a :href="$page.frontmatter.links.pricing">okta.com/pricing</a>
-              </h4>
-            </div>
-            <div class="pricing-addons-tiles">
-              <template v-for="addon in $page.frontmatter.addons">
-                <a class="pricing-addons-tile" target="_blank" rel="noopener noreferrer" :href="addon.link" v-bind:key="addon.title">
-                  <img :src="addon.icon" />
-                  <p>{{addon.title}}</p>
-                </a>
               </template>
             </div>
           </div>
+
         </div>
-      </div>
-      <div class="pricing--background-curve">
-        <img src="/img/curve-singleRightLight.png" />
       </div>
       <div class="pricing--container">
         <div class="pricing--faq">
-          <h1>Frequently asked questions</h1>
+          <h2>FAQ</h2>
           <template v-for="(item, index) in $page.frontmatter.faqs">
-            <div class="pricing-faq-item" v-bind:class="{ 'is-active': faqShownStates[index] }" v-bind:key="index">
-              <button class="pricing-faq-item-title" v-on:click="toggleFaqShown(index)">
-                {{item.title}}
+            <div
+              class="pricing-collapsible-item"
+              v-bind:class="{ 'is-active': collapsibleShownStates['faq' + index] }"
+              v-bind:key="index"
+            >
+              <button
+                class="pricing-collapsible-item-title"
+                v-on:click="toggleCollapsibleShown('faq' + index)"
+              >
+                {{ item.title }}
               </button>
-              <div class="pricing-faq-item-content" v-html="item.content"></div>
+              <div class="pricing-collapsible-item-content">
+                <div class="pricing-faq-content" v-html="item.content"></div>
+              </div>
             </div>
           </template>
         </div>
@@ -167,15 +232,16 @@
         <div class="pricing--questions">
           <h2>More questions?</h2>
           <p>
-            We'd love to hear them. A real, technical human will get back to you shortly.
+            We'd love to hear them. A real, technical human will get back to you
+            shortly.
           </p>
-          <a :href="$page.frontmatter.links.emailSupport" class="Button--red">
+          <SmartLink
+            :item="{ link: $page.frontmatter.links.emailSupport }"
+            classes="Button--red"
+          >
             Email Support
-          </a>
+          </SmartLink>
         </div>
-      </div>
-      <div class="pricing--background-curve">
-        <img src="/img/curve-doubleLeft.png" />
       </div>
       <div class="pricing--footer">
         <CompanyLogos withHeading />
@@ -185,22 +251,36 @@
 </template>
 
 <script>
+const PLANS = {
+  STARTER: 'starter',
+  ADVANCED: 'advanced',
+  ENTERPRISE: 'enterprise',
+};
+
 export default {
   components: {
-    CompanyLogos: () => import("../components/CompanyLogos")
+    CompanyLogos: () => import("../components/CompanyLogos"),
+    SmartLink: () => import("../components/SmartLink"),
   },
   data: () => ({
-    faqShownStates: [
-      false,
-      false,
-      false,
-    ],
-    mauPrice: '$0',
+    selectedPlan: PLANS.STARTER,
+    collapsibleShownStates: {
+      compareTable: false,
+      faq0: false,
+      faq1: false,
+      faq2: false,
+    },
   }),
   methods: {
-    toggleFaqShown(faqIndex) {
-      this.$set(this.faqShownStates, faqIndex, !this.faqShownStates[faqIndex]);
-    }
-  }
-}
+    selectPlan(name) {
+      this.selectedPlan = name;
+    },
+    toggleCollapsibleShown(itemName) {
+      this.$set(this.collapsibleShownStates, itemName, !this.collapsibleShownStates[itemName]);
+    },
+  },
+  created() {
+    this.PLANS = PLANS;
+  },
+};
 </script>

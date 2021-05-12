@@ -1,31 +1,31 @@
 ---
-component: Reference
-title: API Reference
-top_links:
-  - name: API Concepts
-    path: /docs/reference/api-overview/
-    icon: icons/icon--docs-apiconcepts.svg
-  - name: Error Codes
-    path: /docs/reference/error-codes/
-    icon: icons/icon--docs-errorcodes.svg
-  - name: Okta Expression Language
-    path: /docs/reference/okta-expression-language/
-    icon: icons/icon--docs-expressionlang.svg
-  - name: Postman Collections
-    path: /docs/reference/postman-collections/
-    icon: icons/icon--docs-postman.svg
+title: Reference overview
 ---
 
-::: slot left
-## Sign in Your Users
-API endpoints to authenticate your users, challenge for factors, recover passwords, and more. [Learn about which APIs to use.](/docs/concepts/oauth-openid/#authentication-api-vs-oauth-20-vs-openid-connect)
+# Reference overview
 
-<CategoryLinks category="authentication" class="list--with-descriptions" />
-:::
+Details on parameters, requests, and responses for Okta's API endpoints.
 
-::: slot right
-## Manage Okta Resources
-REST endpoints to configure resources such as users, apps, sessions, and factors whenever you need.
+## Core Okta API
 
-<CategoryLinks category="management" where_exp="deprecated" :showExcerpt="false" class="list--multicolumn" sort="title" />
-:::
+The Core Okta API is the primary way that apps and services interact with Okta. You can use it to implement basic auth functions such as signing in your users and programmatically managing your Okta objects.
+
+[Explore core Okta API](/docs/reference/core-okta-api/)
+
+<Cards><Card href="/docs/reference/postman-collections/" :showHeaderIcon=false cardTitle="Postman Collections" :showFooter=true>Import any Okta API collection for Postman.</Card><Card href="/docs/reference/api/asa/introduction/" :showHeaderIcon=false cardTitle="Advanced Service Access API" :showFooter=true>Scale your control of servers with automation.</Card></Cards>
+
+## Okta Hooks
+
+Okta Event and Inline Hooks allow you to integrate custom functionality into specific Okta process flows. Event Hooks send Okta events of interest to your systems as they occur, just like a webhook. Inline Hooks allow developers to modify in-flight Okta processes with custom logic and data from a non-Okta source. For example, you can migrate users from another data store and keep the user’s current password with a [Password Inline Hook](/docs/reference/password-hook/).
+
+## Okta Expression Language
+
+Expressions allow you to reference, transform, and combine attributes before you store or parse them.
+
+[Learn more](/docs/reference/okta-expression-language/)
+
+## System for Cross-domain Identity Management
+
+SCIM is an industry-standard protocol for automating the exchange of user identity information and is part of the Okta Lifecycle Management feature. For example, as your company onboards employees, new user accounts are created in your application so they can connect immediately. Okta supports SCIM versions 1.1 and 2.0.
+
+[Learn more](/docs/reference/scim/)

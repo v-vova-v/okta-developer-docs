@@ -1,215 +1,258 @@
 <template>
   <div class="signup">
-    <div class="signup--form">
-      <form
-        id="signupForm"
-        @submit="submitForm"
-        method="POST"
-        action="https://developer.okta.com/developer/signup/"
-      >
-        <div class="row">
-          <label class="field-wrapper" for="email">
-            Email
-            <input
-              type="text"
-              id="email"
-              maxlength="128"
-              v-model="form.email.value"
-              :class="{ error: !form.email.isValid }"
-              @blur="validationService.checkEmailInput('email')"
-            />
-            <ul class="error-color error-msg" v-if="form.email.errorList.length">
-              <li
-                class="error-color"
-                v-for="(error, index) in form.email.errorList"
-                v-bind:key="index"
-              >
-                {{ error }}
-              </li>
-            </ul>
-          </label>
-        </div>
-        <div class="user-name">
-          <div class="row">
-            <label class="field-wrapper" for="firstName">
-              First Name
-              <input
-                type="text"
-                id="firstName"
-                maxlength="128"
-                v-model="form.firstName.value"
-                :class="{ error: !form.firstName.isValid }"
-                @blur="validationService.checkFormInput('firstName')"
-              />
-              <ul class="error-color error-msg" v-if="form.firstName.errorList.length">
-                <li
-                  class="error-color"
-                  v-for="(error, index) in form.firstName.errorList"
-                  v-bind:key="index"
-                >
-                  {{ error }}
-                </li>
-              </ul>
-            </label>
-          </div>
-          <div class="row">
-            <label class="field-wrapper" for="lastName">
-              Last Name
-              <input
-                type="text"
-                id="lastName"
-                maxlength="128"
-                v-model="form.lastName.value"
-                :class="{ error: !form.lastName.isValid }"
-                @blur="validationService.checkFormInput('lastName')"
-              />
-              <ul class="error-color error-msg" v-if="form.lastName.errorList.length">
-                <li
-                  class="error-color"
-                  v-for="(error, index) in form.lastName.errorList"
-                  v-bind:key="index"
-                >
-                  {{ error }}
-                </li>
-              </ul>
-            </label>
-          </div>
-        </div>
-
-        <div class="row">
-          <label class="field-wrapper" for="country">
-            Country
-            <select
-              name=""
-              v-model="form.country.value"
-              id="country"
-              @change="
-                validationService.checkFormInput('country');
-                validationService.resetFormField('state', {
-                  reset: true,
-                  value: ''
-                });
-                showConsentSection(form.country.value);
-                states = form.country.value;
-              "
-              :class="{ error: !form.country.isValid }"
-            >
-              <option disabled selected>Country</option>
-              <option
-                v-for="country in getCountries"
-                v-bind:key="country.value"
-                :value="country.value"
-                >{{ country.name }}</option
-              >
-            </select>
-            <span class="error-color error-msg" v-if="form.country.errorList.length">{{
-              validationService.errorDictionary.emptyField
-            }}</span>
-          </label>
-        </div>
-        <div class="row" v-if="states.list.length">
-          <label class="field-wrapper" for="state">
-            {{ states.label }}
-            <select
-              name=""
-              id="state"
-              v-model="form.state.value"
-              @change="validationService.checkFormInput('state')"
-              :class="{ error: !form.state.isValid }"
-            >
-              <option selected disabled>{{ states.label }}</option>
-              <option
-                v-for="state in states.list"
-                v-bind:key="state.name"
-                :value="state.value"
-                >{{ state.name }}</option
-              >
-            </select>
-            <span class="error-color error-msg" v-if="form.state.errorList.length">{{
-              validationService.errorDictionary.emptyField
-            }}</span>
-          </label>
-        </div>
-        <div class="row">
-          <vue-recaptcha
-            ref="recaptcha"
-            :loadRecaptchaScript="true"
-            @verify="onCaptchaVerified"
-            @expired="onCaptchaExpired"
-            sitekey="6LeaS6UZAAAAADd6cKDSXw4m2grRsCpHGXjAFJcL"
-            v-if="displayCaptcha"
-          >
-          </vue-recaptcha>
-        </div>
-        <div class="row">
-          <label class="field-wrapper" for="signup">
-            <input
-              type="submit"
-              class="btn red-button"
-              :disabled="!validationService.isValidForm()"
-              id="signup"
-              value="sign up"
-            />
-          </label>
-        </div>
-
-        <div class="consent--section" v-show="displayConsent">
-          <p class="consent--section-text">
-            By clicking “SIGN UP” I agree to the applicable Free Trial terms in
-            <a href="/terms" target="_blank" rel="noopener noreferrer">Okta’s Terms of Service</a> during my use of the
-            Free Trial Service and Okta’s
-            <a href="https://www.okta.com/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>. I further agree that
-            Okta may contact me with marketing communications (details on how to
-            unsubscribe are located in the Privacy Policy link).
-          </p>
-          <div class="consent--section-agree" v-show="displayAgree">
-            <label for="agree-checkbox">
-              <input
-                type="checkbox"
-                name=""
-                id="agree-checkbox"
-                @change="
-                  validationService.checkFormCheckboxInput('consentAgree')
-                "
-                v-model="form.consentAgree.value"
-              />
-              I agree
-            </label>
-            <span
-              class="error-color error-msg"
-              v-if="form.consentAgree.errorList.length"
-              >{{ validationService.errorDictionary.emptyField }}</span
-            >
-          </div>
-        </div>
-      </form>
-      <div class="splitter">
-        <span></span>
-        <span>or</span>
-        <span></span>
-      </div>
-      <div class="row">
-        <div class="field-wrapper">
-          <a class="btn social-btn" :href="uris.github">
-            Continue With GitHub
-          </a>
-        </div>
-      </div>
-      <div class="row">
-        <div class="field-wrapper">
-          <a class="btn social-btn" :href="uris.google">
-            Continue With Google
-          </a>
-        </div>
-      </div>
-      <div class="row goto-signin">
-        Already signed up? <a href="/login">Sign in</a>
-      </div>
+    <div class="signup--banner-oie" v-if="isOie">
+      Identity engine preview
     </div>
-    <div class="signup--description">
-      <Content slot-key="signup-description" />
-      <div class="logo-wrapper">
-        <CompanyLogos withHeading small v-bind:centered="false" />
+    <div class="signup--content">
+      <div class="signup--form">
+        <form id="signupForm" @submit="submitForm">
+          <div class="row">
+            <label class="field-wrapper" for="email">
+              Email
+              <input
+                type="text"
+                id="email"
+                maxlength="128"
+                v-model="form.email.value"
+                :class="{ error: !form.email.isValid }"
+                @blur="validationService.checkEmailInput('email')"
+              />
+              <ul
+                class="error-color error-msg"
+                v-if="form.email.errorList.length"
+              >
+                <li
+                  class="error-color"
+                  v-for="(error, index) in form.email.errorList"
+                  v-bind:key="index"
+                >
+                  {{ error }}
+                </li>
+              </ul>
+            </label>
+          </div>
+          <div class="user-name">
+            <div class="row">
+              <label class="field-wrapper" for="firstName">
+                First Name
+                <input
+                  type="text"
+                  id="firstName"
+                  maxlength="128"
+                  v-model="form.firstName.value"
+                  :class="{ error: !form.firstName.isValid }"
+                  @blur="validationService.checkFormInput('firstName')"
+                />
+                <ul
+                  class="error-color error-msg"
+                  v-if="form.firstName.errorList.length"
+                >
+                  <li
+                    class="error-color"
+                    v-for="(error, index) in form.firstName.errorList"
+                    v-bind:key="index"
+                  >
+                    {{ error }}
+                  </li>
+                </ul>
+              </label>
+            </div>
+            <div class="row">
+              <label class="field-wrapper" for="lastName">
+                Last Name
+                <input
+                  type="text"
+                  id="lastName"
+                  maxlength="128"
+                  v-model="form.lastName.value"
+                  :class="{ error: !form.lastName.isValid }"
+                  @blur="validationService.checkFormInput('lastName')"
+                />
+                <ul
+                  class="error-color error-msg"
+                  v-if="form.lastName.errorList.length"
+                >
+                  <li
+                    class="error-color"
+                    v-for="(error, index) in form.lastName.errorList"
+                    v-bind:key="index"
+                  >
+                    {{ error }}
+                  </li>
+                </ul>
+              </label>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="field-wrapper" for="country">
+              Country/Region
+              <select
+                name=""
+                v-model="form.country.value"
+                id="country"
+                @change="
+                  validationService.checkFormInput('country');
+                  validationService.resetFormField('state', {
+                    reset: true,
+                    value: '',
+                  });
+                  showConsentSection(form.country.value);
+                  states = form.country.value;
+                "
+                :class="{ error: !form.country.isValid }"
+              >
+                <option disabled selected>Country</option>
+                <option
+                  v-for="country in getCountries"
+                  v-bind:key="country.value"
+                  :value="country.value"
+                  >{{ country.name }}</option
+                >
+              </select>
+              <span
+                class="error-color error-msg"
+                v-if="form.country.errorList.length"
+                >{{ validationService.errorDictionary.emptyField }}</span
+              >
+            </label>
+          </div>
+          <div class="row" v-if="states.list.length">
+            <label class="field-wrapper" for="state">
+              {{ states.label }}
+              <select
+                name=""
+                id="state"
+                v-model="form.state.value"
+                @change="validationService.checkFormInput('state')"
+                :class="{ error: !form.state.isValid }"
+              >
+                <option selected disabled>{{ states.label }}</option>
+                <option
+                  v-for="state in states.list"
+                  v-bind:key="state.name"
+                  :value="state.value"
+                  >{{ state.name }}</option
+                >
+              </select>
+              <span
+                class="error-color error-msg"
+                v-if="form.state.errorList.length"
+                >{{ validationService.errorDictionary.emptyField }}</span
+              >
+            </label>
+          </div>
+          <div class="row">
+            <label class="field-wrapper" for="recaptcha">
+              <vue-recaptcha
+                ref="recaptcha"
+                :loadRecaptchaScript="true"
+                @verify="onCaptchaVerified"
+                @expired="onCaptchaExpired"
+                :sitekey="captchaSiteKey"
+              >
+              </vue-recaptcha>
+              <span
+                class="error-color error-msg"
+                v-if="form.captcha.errorList.length"
+                >{{ validationService.errorDictionary.emptyField }}</span
+              >
+            </label>
+          </div>
+          <div class="row error-color" v-if="error !== null">
+            {{ error }}
+          </div>
+          <div class="row">
+            <label class="field-wrapper" for="signup" id="submitbutton">
+              <a class="btn red-button pending" v-if="isPending">
+                <img src="/img/ajax-loader-white.gif" />
+              </a>
+              <input
+                type="submit"
+                class="btn red-button"
+                :disabled="!validationService.isValidForm()"
+                id="signup"
+                value="sign up"
+                v-else
+              />
+            </label>
+          </div>
+
+          <div class="consent--section" v-show="displayConsent">
+            <div class="consent--section-text">
+              <p>
+                By clicking “SIGN UP” I agree to the applicable Free Trial terms
+                in
+                <SmartLink :item="{ link: '/terms/', target: '_blank' }"
+                  >Okta’s Terms of Service</SmartLink
+                >
+                during my use of the Free Trial Service and Okta’s
+                <SmartLink :item="{ link: 'https://www.okta.com/privacy-policy' }"
+                  >Privacy Policy</SmartLink
+                >.
+              </p>
+              <p>
+                I agree that Okta may contact me with marketing communications.
+                See Privacy Policy for details on how to unsubscribe.
+              </p>
+            </div>
+            <div class="consent--section-agree" v-show="displayAgree">
+              <label for="agree-checkbox">
+                <input
+                  type="checkbox"
+                  name=""
+                  id="agree-checkbox"
+                  v-model="form.consentAgree.value"
+                />
+                I agree (Optional)
+              </label>
+            </div>
+          </div>
+        </form>
+        <template v-if="!isOie">
+          <div class="splitter">
+            <span></span>
+            <span>or</span>
+            <span></span>
+          </div>
+          <div class="row">
+            <div class="field-wrapper">
+              <input
+                type="button"
+                id="continue-github"
+                value="continue with github"
+                class="btn social-btn"
+                @click="openTermsConditionsDialog(uris.github)"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="field-wrapper">
+              <input
+                type="button"
+                id="continue-google"
+                class="btn social-btn"
+                value="continue with google"
+                @click="openTermsConditionsDialog(uris.google)"
+              />
+            </div>
+          </div>
+          <TermsAndConditionsDialog
+            v-if="isShowTermsConditionsDialog"
+            :socialUrl="socialUrl"
+            @close="closeTermsConditionsDialog()"
+          ></TermsAndConditionsDialog>
+        </template>
+        <div class="row goto-signin">
+          Already signed up?
+          <SmartLink :item="{ link: '/login/' }">Sign in</SmartLink>
+        </div>
+      </div>
+      <div class="signup--description">
+        <Content slot-key="signup-description" />
+        <div class="logo-wrapper" v-if="!isOie">
+          <CompanyLogos withHeading small v-bind:centered="false" />
+        </div>
       </div>
     </div>
   </div>
@@ -222,26 +265,39 @@ import { Api } from "../util/api.service";
 import {
   countriesList,
   americanStates,
-  canadaProvinces,
+  canadianProvinces,
   GDPR_COUNTRIES
 } from "../const/signup.const";
-import setHiddenUtmValues from "../util/attribution/attribution";
+import getAnalyticsValues from "../util/attribution/attribution";
 import { getIdpUri } from "../util/uris";
 
 const CANADA = "Canada";
 const USA = "United States";
 
+const GENERIC_ERROR_MSG =
+  "Something unexpected happened while processing your registration. Please try again.";
+
 export default {
+  props: {
+    isOie: {
+      type: Boolean,
+      default: false,
+    },
+  },
   components: {
     VueRecaptcha,
-    CompanyLogos: () => import("../components/CompanyLogos")
+    CompanyLogos: () => import("../components/CompanyLogos"),
+    SmartLink: () => import("../components/SmartLink"),
+    TermsAndConditionsDialog: () =>
+      import("../components/TermsAndConditionsDialog")
   },
   data() {
     return {
+      isShowTermsConditionsDialog: false,
+      socialUrl: "",
       state: { label: "", list: [] },
       displayConsent: false,
       displayAgree: false,
-      displayCaptcha: true,
       form: {
         state: { value: "", isValid: true, errorList: [], hidden: true },
         email: { value: "", isValid: true, errorList: [] },
@@ -255,7 +311,10 @@ export default {
           hidden: true
         },
         captcha: { value: "", isValid: true, errorList: [] }
-      }
+      },
+      isPending: false,
+      error: null,
+      captchaSitekey: null
     };
   },
   computed: {
@@ -270,7 +329,7 @@ export default {
           this.state.list = americanStates;
           this.state.label = "State";
         } else if (country === CANADA) {
-          this.state.list = canadaProvinces;
+          this.state.list = canadianProvinces;
           this.state.label = "Province";
         } else {
           this.state.list = [];
@@ -293,9 +352,9 @@ export default {
 
       return {
         github: getIdpUri(uris, "github"),
-        google: getIdpUri(uris, "google"),
+        google: getIdpUri(uris, "google")
       };
-    },
+    }
   },
   methods: {
     submitForm(e) {
@@ -305,12 +364,11 @@ export default {
       this.validationService.checkFormInput("country");
       this.validationService.checkEmailInput("email");
       this.validationService.checkFormInput("state");
-      this.validationService.checkFormCheckboxInput("consentAgree");
       this.validationService.checkFormInput("captcha");
 
       if (this.validationService.isValidForm()) {
         // make api call
-        const { baseUri, registrationPolicyId} = this.$site.themeConfig.uris;
+        const { baseUri, registrationPolicyId } = this.$site.themeConfig.uris;
         const registrationPath = `/api/v1/registration/${registrationPolicyId}/register`;
         const body = {
           userProfile: {
@@ -321,10 +379,59 @@ export default {
             state: this.form.state.value,
             emailOptInC: this.form.consentAgree.value,
             captchaResponse: this.form.captcha.value,
+            // Merge in analytics tracking data
+            ...this.analyticsValues,
           },
         };
 
-        this.apiService.post(registrationPath, { body })
+        if (this.isOie) {
+          body.userProfile.okta_oie = true;
+        }
+
+        this.isPending = true;
+
+        this.apiService
+          .post(registrationPath, { body })
+          .then(() => {
+            // Reset error in case of transient failure that succeeds later
+            this.error = null;
+
+            if (window.dataLayer) {
+              // Google Analytics email signup success event
+              window.dataLayer.push({ event: "07_CIAMTrial" });
+            }
+
+            // Redirect user to success landing page
+            window.location.assign("/signup/thank-you/");
+          })
+          .catch(err => {
+            this.handleApiError(err);
+          })
+          .finally(() => {
+            this.isPending = false;
+          });
+      }
+    },
+
+    handleApiError(err) {
+      if (err.response) {
+        const { status, data } = err.response;
+
+        switch (status) {
+          case 400: {
+            if (data.errorCauses && data.errorCauses.length) {
+              this.error = data.errorCauses[0].errorSummary;
+            }
+            break;
+          }
+          default: {
+            this.error = GENERIC_ERROR_MSG;
+          }
+        }
+      } else {
+        console.error(err);
+
+        this.error = GENERIC_ERROR_MSG;
       }
     },
 
@@ -346,22 +453,38 @@ export default {
     },
 
     onCaptchaVerified(response) {
-      this.form.captcha.value = response;
+      this.validationService.resetFormField("captcha", {
+        reset: true,
+        value: response
+      });
     },
     onCaptchaExpired() {
       this.$refs.recaptcha.reset();
-      this.form.captcha.value = "";
+      this.validationService.resetFormField("captcha", {
+        reset: true,
+        value: ""
+      });
+      this.validationService.checkFormInput("captcha");
+    },
+    closeTermsConditionsDialog() {
+      this.isShowTermsConditionsDialog = false;
+    },
+    openTermsConditionsDialog(url) {
+      this.socialUrl = url;
+      this.isShowTermsConditionsDialog = true;
+    }
+  },
+  beforeMount() {
+    const { captcha } = this.$site.themeConfig;
+
+    if (window.location.hostname === "developer.okta.com") {
+      this.captchaSiteKey = captcha.production;
+    } else {
+      this.captchaSiteKey = captcha.test;
     }
   },
   mounted() {
-    const formElement = document.querySelector("#signupForm");
-    setHiddenUtmValues(formElement);
-
-    if (window.location.hostname !== "developer.okta.com") {
-      // Do not show/enforce CAPTCHA on non-production deploys
-      this.form.captcha.value = "mocked-captcha-response";
-      this.displayCaptcha = false;
-    }
-  }
+    this.analyticsValues = getAnalyticsValues();
+  },
 };
 </script>

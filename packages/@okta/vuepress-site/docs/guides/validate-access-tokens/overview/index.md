@@ -6,7 +6,7 @@ If you are building a modern app or API, you likely want to know if your end use
 
 After the signed tokens are issued to the end users, they can be passed to your application for validation. There are two ways to verify a token: locally or remotely with Okta. The token is signed with a JSON Web Key (JWK) using the RS256 algorithm. To validate the signature, Okta provides your application with a public key that can be used.
 
- The followng covers the terms used in this document, and provides an explanation of why you should use access tokens instead of ID tokens for this use case.
+ The following covers the terms used in this document, and provides an explanation of why you should use access tokens instead of ID tokens for this use case.
 
 - If you'd like to jump straight to the local validation steps: [What to Check When Validating an Access Token](#what-to-check-when-validating-an-access-token)
 - If you'd like to see how to validate a token directly with Okta: [Validating A Token Remotely With Okta](#validating-a-token-remotely-with-okta)
@@ -48,8 +48,6 @@ You will have to decode the access token, which is in JWT format.  This involves
 Okta provides libraries to perform these steps for you:
 <StackSelector snippet="accesstoken"/>
 
-Don't see the language you're working in? Get in touch: <developers@okta.com>
-
 ## Validating A Token Remotely With Okta
 
 Alternatively, you can also validate an access or refresh Token using the Token Introspection endpoint: [Introspection Request](/docs/reference/api/oidc/#introspect). This endpoint takes your token as a URL query parameter and returns back a simple JSON response with a boolean `active` property.
@@ -58,4 +56,4 @@ This incurs a network request which is slower to do verification, but can be use
 
 ## Support
 
-If you need help or have an issue, post a question in our [Developer Forum](https://devforum.okta.com).
+Don't see the language you're working in? Need help or have an issue? Post a question on the [Okta Developer Forum](https://devforum.okta.com).

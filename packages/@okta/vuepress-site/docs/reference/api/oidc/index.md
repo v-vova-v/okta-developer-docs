@@ -17,7 +17,7 @@ This page contains detailed information about the OAuth 2.0 and OpenID Connect e
 
 ## Get started
 
-Explore the OpenID Connect & OAuth 2.0 API: [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/fd92d7c1ab0fbfdecab2)
+Explore the OpenID Connect & OAuth 2.0 API: [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/9e7ad28ca1c26870a4b0)
 
 ## Endpoints
 
@@ -86,8 +86,8 @@ This is a starting point for browser-based OpenID Connect flows such as the impl
 | code_challenge_method            | Method used to derive the code challenge for [PKCE](/docs/guides/implement-auth-code-pkce/). Valid value: `S256`                                                                                                                                                                                                                                                                                                         | Query       | String    | FALSE      |
 | display                          | The `display` parameter to be passed to the Social Identity Provider when performing Social Login.                                                                                                                                                                                                                                                                                                                                                 | Query       | String    | FALSE      |
 | idp_scope                        | A space delimited list of scopes to be provided to the Social Identity Provider when performing [Social Login](/docs/concepts/social-login/). These scopes are used in addition to the scopes already configured on the Identity Provider.                                                                                                                                                                                                  | Query       | String    | FALSE      |
-| [idp](/docs/reference/api/idps/) | Identity provider to use if there is no Okta Session.                                                                                                                                                                                                                                                                                                                   | Query       | String    | FALSE      |
-| login_hint                       | A username to prepopulate if prompting for authentication.                                                                                                                                                                                                                                                                                                                                                                                         | Query       | String    | FALSE      |
+| [idp](/docs/reference/api/idps/) | Identity provider to use if there's no Okta Session.                                                                                                                                                                                                                                                                                                                  | Query       | String    | FALSE      |
+| login_hint                       | A username to prepopulate if prompting for authentication.                                                                                                                                                                                                                                                                                                                                           | Query       | String    | FALSE      |
 | max_age                          | Allowable elapsed time, in seconds, since the last time the end user was actively authenticated by Okta.                                                                                                                                                                                                                                                                                                                                           | Query       | String    | FALSE      |
 | nonce                            | A value that is returned in the ID token. It is used to mitigate replay attacks.                                                                                                                                                                                                                                                                                                                                                              | Query       | String    | TRUE       |
 | prompt                           | Valid values: `none`, `consent`, `login`, or `consent` and `login` in either order. See [Parameter details](#parameter-details) for more information.                                                                                                                                                                                                                                                                                              | Query       | String    | FALSE      |
@@ -171,7 +171,7 @@ Irrespective of the response type, the contents of the response are as described
 | Property            | Description                                                                                                                                                                              | DataType |
 | :------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------- |
 | access_token        | An [access token](#access-token). This is returned if `response_type` included `token`.                                                                                                  | String   |
-| code                | An opaque value that can be used to redeem tokens from the [token endpoint](#token). `code` is returned if the `response_type` includes `code`. The code has a lifetime of 60 seconds.   | String   |
+| code                | An opaque value that can be used to redeem tokens from the [token endpoint](#token). `code` is returned if the `response_type` includes `code`. The code has a lifetime of 300 seconds.   | String   |
 | error               | The error code, if something went wrong.                                                                                                                                                 | String   |
 | error_description   | Additional error information (if any).                                                                                                                                                   | String   |
 | expires_in          | Number of seconds until the `access_token` expires. This is only returned if the response included an `access_token`.                                                                    | String   |
@@ -270,14 +270,15 @@ The following parameters can be posted as a part of the URL-encoded form values 
 
 | Parameter               | Description                                                                                                                                                                                                                                                                                                                        | Type   |
 | :---------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----- |
-| code                    | Required if `grant_type` is `authorization_code`. The value is what was returned from the [authorization endpoint](#authorize). The code has a lifetime of 60 seconds.                                                                                                                                                             | String |
+| code                    | Required if `grant_type` is `authorization_code`. The value is what was returned from the [authorization endpoint](#authorize). The code has a lifetime of 300 seconds.                                                                                                                                                             | String |
 | code_verifier           | Required if `grant_type` is `authorization_code`  and `code_challenge` was specified in the original `/authorize` request. This value is the code verifier for [PKCE](#parameter-details). Okta uses it to recompute the `code_challenge` and verify if it matches the original `code_challenge` in the authorization request.     | String |
-| grant_type              | Can be one of the following: `authorization_code`, `password`, `client_credentials`, or `refresh_token`. Determines the mechanism Okta uses to authorize the creation of the tokens.                                                                                                                                               | String |
+| grant_type              | Can be one of the following: `authorization_code`, `password`, `client_credentials`, `refresh_token`, or `urn:ietf:params:oauth:grant-type:saml2-bearer`<ApiLifecycle access="ea" />. Determines the mechanism Okta uses to authorize the creation of the tokens.                                                                                                                                               | String |
 | password                | Required if the grant_type is `password`.                                                                                                                                                                                                                                                                                          | String |
 | redirect_uri            | Required if `grant_type` is `authorization_code`. Specifies the callback location where the authorization was sent. This value must match the `redirect_uri` used to generate the original `authorization_code`.                                                                                                                   | String |
 | refresh_token           | Required if `grant_type` is `refresh_token`. The value is a valid refresh token that was returned from this endpoint previously.                                                                                                                                                                                                   | String |
 | scope                   | Required if `password` is the `grant_type`. This is a list of scopes that the client wants to be included in the access token. For the `refresh_token` grant type, these scopes have to be a subset of the scopes used to generate the refresh token in the first place.                                                             | String |
 | username                | Required if the grant_type is `password`.                                                                                                                                                                                                                                                                                          | String |
+| assertion               | Required if the grant_type is `urn:ietf:params:oauth:grant-type:saml2-bearer`<ApiLifecycle access="ea" />. | String |
 
 #### Response properties
 
@@ -588,6 +589,8 @@ Okta also recommends caching or persisting these keys to improve performance. If
 #### Response properties
 
 JWKS properties can be found [here](/docs/reference/api/authorization-servers/#key-properties).
+
+> **Note:** Okta returns [standard HTTP Cache-Control headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control) for applicable JWKS endpoints. Ensure that you respect the cache header directives, as they are updated based on the time of the request.
 
 #### Response example
 
@@ -1094,6 +1097,20 @@ This section contains some general information about claims, as well as detailed
 * [Access Token](#access-token)
 * [ID Token](#id-token)
 * [Refresh Token](#refresh-token)
+
+### Token lifetime
+
+When you are using the [Okta Authorization Server](/docs/concepts/auth-servers/#org-authorization-server), the lifetime of the JWT tokens is hard-coded to the following values:
+
+* **ID token:** 60 minutes
+* **Access token:** 60 minutes
+* **Refresh token:** 90 days
+
+When you are using a [Custom Authorization Server](/docs/concepts/auth-servers/#custom-authorization-server), you can configure the lifetime of the JWT tokens:
+
+* **Access tokens:** The minimum is five minutes, and the maximum is 24 hours (configurable using an [Access Policy](https://help.okta.com/en/prod/okta_help_CSH.htm#ext-create-access-policies)).
+* **Refresh tokens:** The minimum access token lifetime. The idle time window is at least 10 minutes, with a maximum of five years (configurable using an [Access Policy](https://help.okta.com/en/prod/okta_help_CSH.htm#ext-create-access-policies)).
+* **ID tokens:** Not configurable. Token lifetime is 60 minutes.
 
 ### Claims
 

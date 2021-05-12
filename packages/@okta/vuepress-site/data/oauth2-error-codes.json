@@ -1,6 +1,6 @@
 {
-  "release" : "2021.01.1",
-  "build" : "2021.01.1-begin-115-g04e1a2262beb",
+  "release" : "2021.05.1",
+  "build" : "2021.05.1-begin-78-g803f4ad1e272",
   "errors" : [ {
     "title" : "Access denied",
     "statusCode" : 403,
@@ -275,6 +275,13 @@
     "errorCode" : "consent_required",
     "errorDescription" : "The following scopes require user consent: [{0}]. To access protected scopes using the resource owner password grant type, please uncheck 'Require consent' in the app settings or set the 'consent_method' to 'TRUSTED' through the apps API."
   }, {
+    "title" : "Consent required token exchange",
+    "statusCode" : 400,
+    "statusReasonPhrase" : "Bad Request",
+    "internalErrorCode" : "consent_required_token_exchange",
+    "errorCode" : "consent_required",
+    "errorDescription" : "The following scopes require user consent: [{0}]. To access protected scopes using the token_exchange password grant type, please uncheck 'Require consent' in the app settings or set the apps 'consent_method' to 'TRUSTED'."
+  }, {
     "title" : "No org scopes granted",
     "statusCode" : 400,
     "statusReasonPhrase" : "Bad Request",
@@ -513,12 +520,33 @@
     "errorCode" : "invalid_client",
     "errorDescription" : "The client secret is too short to verify a JWT HMAC."
   }, {
+    "title" : "Client assertion jwks not configured",
+    "statusCode" : 401,
+    "statusReasonPhrase" : "Unauthorized",
+    "internalErrorCode" : "client_assertion_jwks_not_configured",
+    "errorCode" : "invalid_client",
+    "errorDescription" : "The client does not have a JWKSet configured, but the client_assertion requires one."
+  }, {
     "title" : "Authorize request object invalid issuer",
     "statusCode" : 401,
     "statusReasonPhrase" : "Unauthorized",
     "internalErrorCode" : "authorize_request_object_invalid_issuer",
     "errorCode" : "invalid_client",
     "errorDescription" : "The issuer of the authorize request object is invalid."
+  }, {
+    "title" : "Authorize request object jwks not configured",
+    "statusCode" : 401,
+    "statusReasonPhrase" : "Unauthorized",
+    "internalErrorCode" : "authorize_request_object_jwks_not_configured",
+    "errorCode" : "invalid_client",
+    "errorDescription" : "The client does not have a JWKSet configured, but the request object requires one."
+  }, {
+    "title" : "Authorize request URI mismatched client",
+    "statusCode" : 401,
+    "statusReasonPhrase" : "Unauthorized",
+    "internalErrorCode" : "authorize_request_uri_mismatched_client",
+    "errorCode" : "invalid_client",
+    "errorDescription" : "The 'client_id' parameter does not match the expected value for the provided request_uri."
   }, {
     "title" : "Invalid client metadata",
     "statusCode" : 400,
@@ -540,6 +568,13 @@
     "internalErrorCode" : "pkce_verification_failed",
     "errorCode" : "invalid_grant",
     "errorDescription" : "PKCE verification failed."
+  }, {
+    "title" : "PKCE verification failed with reason",
+    "statusCode" : 400,
+    "statusReasonPhrase" : "Bad Request",
+    "internalErrorCode" : "pkce_verification_failed_with_reason",
+    "errorCode" : "invalid_grant",
+    "errorDescription" : "PKCE verification failed: {0}."
   }, {
     "title" : "Invalid authorization code",
     "statusCode" : 400,
@@ -632,12 +667,12 @@
     "errorCode" : "invalid_grant",
     "errorDescription" : "SAML Assertion credentials authentication denied by sign on policy."
   }, {
-    "title" : "Invalid interaction code",
+    "title" : "Client requires MFA native sso",
     "statusCode" : 400,
     "statusReasonPhrase" : "Bad Request",
-    "internalErrorCode" : "invalid_interaction_code",
+    "internalErrorCode" : "client_requires_mfa_native_sso",
     "errorCode" : "invalid_grant",
-    "errorDescription" : "The interaction code is invalid or has expired."
+    "errorDescription" : "The client's assurance requirements are not met."
   }, {
     "title" : "Interaction code unsatisfiable",
     "statusCode" : 400,
@@ -645,6 +680,13 @@
     "internalErrorCode" : "interaction_code_unsatisfiable",
     "errorCode" : "invalid_grant",
     "errorDescription" : "Additional user authentication is required but the assurance requirements cannot be met with the allowed authenticators. Check the authenticator and assurance configuration for the user and client."
+  }, {
+    "title" : "Invalid interaction code",
+    "statusCode" : 400,
+    "statusReasonPhrase" : "Bad Request",
+    "internalErrorCode" : "invalid_interaction_code",
+    "errorCode" : "invalid_grant",
+    "errorDescription" : "The interaction code is invalid or has expired."
   }, {
     "title" : "Invalid initiate login URI",
     "statusCode" : 400,
@@ -687,6 +729,20 @@
     "internalErrorCode" : "duplicate_oauth_params",
     "errorCode" : "invalid_request",
     "errorDescription" : "The request contained multiple parameters with the same name."
+  }, {
+    "title" : "Unsupported response type with scope",
+    "statusCode" : 400,
+    "statusReasonPhrase" : "Bad Request",
+    "internalErrorCode" : "unsupported_response_type_with_scope",
+    "errorCode" : "invalid_request",
+    "errorDescription" : "The response type {0} is not supported when requesting scope {1}. Allowed response types: [{2}]."
+  }, {
+    "title" : "Required response type with scope",
+    "statusCode" : 400,
+    "statusReasonPhrase" : "Bad Request",
+    "internalErrorCode" : "required_response_type_with_scope",
+    "errorCode" : "invalid_request",
+    "errorDescription" : "The response type {0} is required when requesting scope {1}."
   }, {
     "title" : "Illegal origin browser request",
     "statusCode" : 400,
@@ -758,6 +814,13 @@
     "errorCode" : "invalid_request",
     "errorDescription" : "The 'user_type' parameter must be user type name or id."
   }, {
+    "title" : "PKCE invalid challenge",
+    "statusCode" : 400,
+    "statusReasonPhrase" : "Bad Request",
+    "internalErrorCode" : "pkce_invalid_challenge",
+    "errorCode" : "invalid_request",
+    "errorDescription" : "PKCE code challenge contains illegal characters."
+  }, {
     "title" : "PKCE missing challenge",
     "statusCode" : 400,
     "statusReasonPhrase" : "Bad Request",
@@ -799,6 +862,13 @@
     "internalErrorCode" : "request_missing_token",
     "errorCode" : "invalid_request",
     "errorDescription" : "The 'token' parameter is required."
+  }, {
+    "title" : "Illegal duplicated parameters",
+    "statusCode" : 400,
+    "statusReasonPhrase" : "Bad Request",
+    "internalErrorCode" : "illegal_duplicated_parameters",
+    "errorCode" : "invalid_request",
+    "errorDescription" : "Duplicate parameter provided in request. Duplicated parameters: [{0}]."
   }, {
     "title" : "Invalid authorization server",
     "statusCode" : 400,
@@ -849,6 +919,41 @@
     "errorCode" : "invalid_request",
     "errorDescription" : "'subject_token_type' is invalid or not supported."
   }, {
+    "title" : "Invalid actor token",
+    "statusCode" : 400,
+    "statusReasonPhrase" : "Bad Request",
+    "internalErrorCode" : "invalid_actor_token",
+    "errorCode" : "invalid_request",
+    "errorDescription" : "'actor_token' is invalid."
+  }, {
+    "title" : "Invalid actor token type",
+    "statusCode" : 400,
+    "statusReasonPhrase" : "Bad Request",
+    "internalErrorCode" : "invalid_actor_token_type",
+    "errorCode" : "invalid_request",
+    "errorDescription" : "'actor_token_type' is invalid or not supported."
+  }, {
+    "title" : "Invalid subject actor token match",
+    "statusCode" : 400,
+    "statusReasonPhrase" : "Bad Request",
+    "internalErrorCode" : "invalid_subject_actor_token_match",
+    "errorCode" : "invalid_request",
+    "errorDescription" : "When 'actor_token_type' is '{0}', 'subject_token_type' must be '{1}'."
+  }, {
+    "title" : "Invalid client type native sso",
+    "statusCode" : 400,
+    "statusReasonPhrase" : "Bad Request",
+    "internalErrorCode" : "invalid_client_type_native_sso",
+    "errorCode" : "invalid_request",
+    "errorDescription" : "A service client may not use the native sso flow."
+  }, {
+    "title" : "PKCE challenge required",
+    "statusCode" : 400,
+    "statusReasonPhrase" : "Bad Request",
+    "internalErrorCode" : "pkce_challenge_required",
+    "errorCode" : "invalid_request",
+    "errorDescription" : "PKCE code challenge is required to use the interaction code flow."
+  }, {
     "title" : "Illegal post logout redirect URI",
     "statusCode" : 400,
     "statusReasonPhrase" : "Bad Request",
@@ -890,6 +995,13 @@
     "internalErrorCode" : "authorize_request_object_and_request_uri_provided",
     "errorCode" : "invalid_request",
     "errorDescription" : "The authorize request must not contain both a request object and a request uri."
+  }, {
+    "title" : "Pushed authorization request URI present",
+    "statusCode" : 400,
+    "statusReasonPhrase" : "Bad Request",
+    "internalErrorCode" : "pushed_authorization_request_uri_present",
+    "errorCode" : "invalid_request",
+    "errorDescription" : "The 'request_uri' parameter must not be present in the request."
   }, {
     "title" : "Invalid request object",
     "statusCode" : 400,
@@ -982,6 +1094,20 @@
     "errorCode" : "invalid_request_object",
     "errorDescription" : "The JWT signature secret length is too short."
   }, {
+    "title" : "Invalid request URI",
+    "statusCode" : 400,
+    "statusReasonPhrase" : "Bad Request",
+    "internalErrorCode" : "invalid_request_uri",
+    "errorCode" : "invalid_request_uri",
+    "errorDescription" : "The authorize request_uri is invalid."
+  }, {
+    "title" : "Authorize request URI mismatched authorization server",
+    "statusCode" : 400,
+    "statusReasonPhrase" : "Bad Request",
+    "internalErrorCode" : "authorize_request_uri_mismatched_authorization_server",
+    "errorCode" : "invalid_request_uri",
+    "errorDescription" : "The request_uri was issued for another authorization server."
+  }, {
     "title" : "Invalid authorization details request response type",
     "statusCode" : 400,
     "statusReasonPhrase" : "Bad Request",
@@ -1058,6 +1184,20 @@
     "internalErrorCode" : "invalid_social_token",
     "errorCode" : "invalid_social_token",
     "errorDescription" : "Could not acquire access token from authorization code."
+  }, {
+    "title" : "Invalid target",
+    "statusCode" : 400,
+    "statusReasonPhrase" : "Bad Request",
+    "internalErrorCode" : "invalid_target",
+    "errorCode" : "invalid_target",
+    "errorDescription" : "The token request contains an invalid target."
+  }, {
+    "title" : "Token exchange invalid audience",
+    "statusCode" : 400,
+    "statusReasonPhrase" : "Bad Request",
+    "internalErrorCode" : "token_exchange_invalid_audience",
+    "errorCode" : "invalid_target",
+    "errorDescription" : "Token Exchange requests must include a valid audience of the authorization server."
   }, {
     "title" : "Invalid token",
     "statusCode" : 401,
