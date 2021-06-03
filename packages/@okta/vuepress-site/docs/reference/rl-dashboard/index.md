@@ -32,11 +32,11 @@ You can investigate high usage of a rate limit or a rate limit violation. After 
 
 When a rate limit violation occurs, you're notified in the following ways and can access the rate limits dashboard from the link in the notification:
 
-* You receive a rate limit email that informs you that you've hit a rate limit for an endpoint. Click **View utilization history** in the email to navigate to the Rate Limits Dashboard and System Log for that particular endpoint.
+* You receive a rate limit email that informs you that you've hit a rate limit for an endpoint. Click **View utilization history** in the email to navigate to the rate limits dashboard and System Log for that particular endpoint.
 
 ![Access the dashboard by email notification](/img/RLDashboard1.png "Displays the email notification of a rate limit violation with the link to the endpoint's rate limit dashboard")
 
-* You've hit a rate limit when you're in the Admin Console, and a banner appears to inform you. Click **utilization history** in the banner to open the Rate Limits Dashboard for that particular endpoint or **syslog** to open the System Log.
+* You've hit a rate limit when you're in the Admin Console, and a banner appears to inform you. Click **utilization history** in the banner to open the rate limits dashboard for that particular endpoint or **syslog** to open the System Log.
 
 ![Access the dashboard by link in the banner](/img/RLDashboard2.png "Displays the banner in the dashboard that notifies you of a rate limit violation with the link to the endpoint's rate limit dashboard")
 
