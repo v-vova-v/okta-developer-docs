@@ -103,7 +103,7 @@ API endpoints that take username and password credentials, including the [Authen
   * `/api/v1/authn/factors`
   * `/api/v1/users/{userId}/factors`
 
-  **Identity Engine endpoints** <ApiLifecycle access="ie" /> 
+  **Identity Engine endpoints** <ApiLifecycle access="ie" />
   * `/idp/idx/challenge`
   * `/idp/idx/credential/enroll`
 
