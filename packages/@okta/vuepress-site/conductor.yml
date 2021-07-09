@@ -2051,3 +2051,7 @@ redirects:
     to: /docs/guides/password-import-inline-hook/-/test-password-import-hook/
   - from: /docs/guides/password-import-hook/-/next-steps/index.html
     to: /docs/guides/password-import-inline-hook/-/test-password-import-hook/
+  - from: /docs/reference/api/oie-policy-types/index.html
+    to: /docs/reference/api/policy/
+  - from: /docs/concepts/ie-intro/index.html
+    to: https://help.okta.com/en/oie/okta_help_CSH.htm#ext-get-started-oie/
