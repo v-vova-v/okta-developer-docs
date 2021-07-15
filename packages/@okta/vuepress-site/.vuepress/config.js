@@ -201,6 +201,7 @@ module.exports = ctx => ({
       { text: 'Community',
         children: [
           { text: 'Forum', link: 'https://devforum.okta.com' },
+          { text: 'Blog', link: 'https://developer.okta.com/blog/' },
           { text: 'Toolkit', link: 'https://toolkit.okta.com/' },
           { text: 'Developer Day', link: 'https://www.okta.com/developerday/' },
           { type: 'divider' },
@@ -213,7 +214,6 @@ module.exports = ctx => ({
           }
         ]
       },
-      { text: 'Blog', link: '/blog/' },
       { text: 'Pricing', link: 'https://www.okta.com/pricing/#customer-identity-products' },
     ],
     primary_right_nav: [
