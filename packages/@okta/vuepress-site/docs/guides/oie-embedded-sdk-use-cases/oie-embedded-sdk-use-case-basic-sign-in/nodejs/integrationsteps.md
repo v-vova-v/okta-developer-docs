@@ -19,7 +19,7 @@ When the user initiates the sign-in process, your app needs to create an `authCl
 router.post('/login', async (req, res, next) => {
   const { username, password } = req.body;
   const authClient = getAuthClient(req);
-  const transaction = await authClient.idx.authenticate({ 
+  const transaction = await authClient.idx.authenticate({
     username,
     password,
   });
