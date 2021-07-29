@@ -653,7 +653,7 @@ You can use an [introspection request](#introspect) for validation.
 
 Okta strongly recommends retrieving keys dynamically with the JWKS published in the discovery document. Okta also recommends caching or persisting these keys to improve performance. If you cache signing keys, and automatic key rotation is enabled, be aware that verification fails when Okta rotates the keys automatically. Clients that cache keys should periodically check the JWKS for updated signing keys.
 
-Okta recommends a background process that regularly caches the `/keys` endpoint. This process can be completed once a day or more infrequently, for example, once per week. This ensures that you always have an up-to-date set of keys for validation even when we generate the next key or rotate automatically at the 45 or 90 day mark respectively. 
+Okta recommends a background process that regularly caches the `/keys` endpoint. This process can be completed once a day or more infrequently, for example, once per week. This ensures that you always have an up-to-date set of keys for validation even when we generate the next key or rotate automatically at the 45 or 90 day mark respectively.
 
 Under almost all circumstances, the above would be sufficient except in cases where keys were rotated or generated outside the usual timespans. An example of this would be if Okta or a customer had a need to perform this operation for security reasons. You should augment the above approach with a failsafe for circumstances where keys are quickly regenerated and rotated.
 
@@ -922,6 +922,8 @@ curl -X GET \
 
 #### Response example (success)
 
+> **Note:** The scope `online_access` is [Early Access](/docs/reference/releases-at-okta/#early-access-ea).
+
 ```json
 {
     "issuer": "https://${yourOktaDomain}",
@@ -1057,6 +1059,7 @@ to access the OIDC `/userinfo` [endpoint](/docs/reference/api/oidc/#userinfo). T
 | address          | Requests access to the `address` claim.                                                                         | No             |
 | groups           | Requests access to the `groups` claim.                                                                          | No             |
 | offline_access   | Requests a refresh token used to obtain more access tokens without re-prompting the user for authentication.   | No             |
+| online_access <ApiLifecycle access="ea" /> | Requests a refresh token used to obtain more access tokens without re-prompting the user for authentication. The refresh token and the ID token are bound to the browser session. See *link*. | No |
 
 ### Scope values
 
@@ -1064,6 +1067,7 @@ to access the OIDC `/userinfo` [endpoint](/docs/reference/api/oidc/#userinfo). T
 * `profile` requests access to these default profile claims: `name`, `family_name`, `given_name`, `middle_name`, `nickname`, `preferred_username`, `profile`, `picture`, `website`, `gender`, `birthdate`, `zoneinfo`,`locale`, and `updated_at`.
 * `offline_access` can only be requested in combination with a `response_type` that contains `code`. If the `response_type` doesn't contain `code`, `offline_access` is ignored.
 * For more information about `offline_access`, see the [OIDC spec](http://openid.net/specs/openid-connect-core-1_0.html#OfflineAccess).
+* For more information about `online_access`<ApiLifecycle access="ea" />, see *link*.
 
 ### Scope properties
 
@@ -1194,6 +1198,8 @@ Okta defines a number of reserved scopes and claims that can't be overridden.
 ###### Reserved scopes
 
 `openid`, `profile`, `email`, `address`, `phone`, `offline_access`, and `groups` are available to ID tokens and access tokens, using either the Okta Org Authorization Server or a Custom Authorization Server. For details, see [Scopes](#access-token-scopes-and-claims). All of these scopes except `groups` are defined in the OpenID Connect specification.
+
+Additionally, we have reserved the scopes `online_access`<ApiLifecycle access="ea" /> as it has a particular meaning similar to `offline_access`.
 
 ###### Reserved claims in the header section
 
