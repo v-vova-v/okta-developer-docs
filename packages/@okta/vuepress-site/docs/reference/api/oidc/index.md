@@ -1199,7 +1199,7 @@ Okta defines a number of reserved scopes and claims that can't be overridden.
 
 `openid`, `profile`, `email`, `address`, `phone`, `offline_access`, and `groups` are available to ID tokens and access tokens, using either the Okta Org Authorization Server or a Custom Authorization Server. For details, see [Scopes](#access-token-scopes-and-claims). All of these scopes except `groups` are defined in the OpenID Connect specification.
 
-Additionally, we have reserved the scopes `online_access`<ApiLifecycle access="ea" /> as it has a particular meaning similar to `offline_access`.
+Additionally, we have reserved the scope `online_access`. <ApiLifecycle access="ea" /> as it has a particular meaning similar to `offline_access`.
 
 ###### Reserved claims in the header section
 
